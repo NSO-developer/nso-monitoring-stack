@@ -1,0 +1,19 @@
+<config xmlns="http://tail-f.com/ns/config/1.0">
+  <progress xmlns="http://tail-f.com/ns/progress">
+    <export xmlns="http://tail-f.com/ns/observability-exporter">
+      <enabled>true</enabled>
+      <influxdb>
+        <host>localhost</host>
+        <port>8086</port>
+        <username>admin</username>
+        <password>admin</password>
+        <database>nso</database>
+      </influxdb>
+      <otlp>
+        <host>localhost</host>
+        <port>4317</port>
+        <transport>grpc</transport>
+      </otlp>
+    </export>
+  </progress>
+</config>

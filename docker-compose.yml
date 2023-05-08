@@ -1,0 +1,72 @@
+version: '3.2'
+
+services:
+
+  prometheus:
+    image: "prom/prometheus:${PROMETHEUS_VERSION}"
+    privileged: true
+    user: root
+    ports:
+      - 9090:9090
+    volumes:
+      - ./prometheus/etc:/etc/prometheus
+      - ./prometheus/data:/prometheus/data
+    command:
+      - --web.enable-lifecycle
+      - --config.file=/etc/prometheus/prometheus.yml
+    hostname: prometheus
+    extra_hosts:
+      - "dockerhost:${HOST:-host-gateway}"
+      - "nso:${HOST}"
+
+  influxdb:
+    image: "influxdb:${INFLUXDB_VERSION}"
+    restart: unless-stopped
+    privileged: true
+    ports:
+      - 8086:8086
+      - 8088:8088
+    volumes:
+      - ./influxdb/data:/var/lib/influxdb
+    hostname: influxdb
+    extra_hosts:
+      - "dockerhost:${HOST:-host-gateway}"
+
+  tempo:
+    image: "grafana/tempo:${TEMPO_VERSION}"
+    command: -config.file=/tempo.yaml
+    restart: unless-stopped
+    privileged: true
+    ports:
+      - 3200:3200    # tempo
+      - 4317:4317    # otlp grpc
+      - 4318:4318    # otlp http
+      - 9411:9411    # zipkin
+      - 14268:14268  # jaeger ingest
+    volumes:
+      - ./tempo/tempo.yaml:/tempo.yaml
+      - ./tempo/data:/tmp/tempo
+    hostname: tempo
+    extra_hosts:
+      - "dockerhost:${HOST:-host-gateway}"
+
+  grafana:
+    image: "grafana/grafana-oss:${GRAFANA_VERSION}"
+    privileged: true
+    user: root
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+    volumes:
+      - ./grafana/conf:/etc/grafana
+      - ./grafana/data:/var/lib/grafana
+      - ./grafana/logs:/var/log/grafana
+      - ./grafana/data/provisioning:/etc/grafana/provisioning
+    environment:
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - GF_AUTH_DISABLE_LOGIN_FORM=true
+        #      - HTTPS_PROXY=https://<proxyhost>
+    hostname: grafana
+    extra_hosts:
+      - "dockerhost:${HOST:-host-gateway}"

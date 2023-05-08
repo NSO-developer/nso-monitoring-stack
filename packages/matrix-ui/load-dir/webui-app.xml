@@ -1,0 +1,14 @@
+<config xmlns="http://tail-f.com/ns/config/1.0">
+  <webui xmlns="http://tail-f.com/ns/webui">
+    <applications xmlns="http://tail-f.com/ns/webui-one">
+      <application>
+        <id>matrix-ui</id>
+        <href>/custom/matrix-ui</href>
+        <title>Matrix manager</title>
+        <description>Root Cause Analysis at your finger tip!</description>
+        <promo-label>Top Secret</promo-label>
+        <category>Amazing Things</category>
+      </application>
+    </applications>
+  </webui>
+</config>

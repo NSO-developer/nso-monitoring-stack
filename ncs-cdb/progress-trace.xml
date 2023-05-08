@@ -1,0 +1,13 @@
+<config xmlns="http://tail-f.com/ns/config/1.0">
+  <progress xmlns="http://tail-f.com/ns/progress">
+    <trace>
+      <name>minimal-recommended-progress-trace-config</name>
+      <destination>
+        <file>progress-trace.csv</file>
+        <format>csv</format>
+      </destination>
+      <enabled>true</enabled>
+      <verbosity>debug</verbosity>
+    </trace>
+  </progress>
+</config>

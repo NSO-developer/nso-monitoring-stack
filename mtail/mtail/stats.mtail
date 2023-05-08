@@ -1,0 +1,9 @@
+counter logs_severity_total by severity, filename
+
+getfilename() !~ /audit\.log|devel.log|ncs-java-vm.log|ncs.log|ncs-python-vm\S*.log|netconf.log|snmp.log/ {
+    stop
+}
+
+/^<(?P<severity>INFO|WARNING|ERROR|CRIT|DEBUG)>/ {
+    logs_severity_total[$severity][getfilename()]++
+}

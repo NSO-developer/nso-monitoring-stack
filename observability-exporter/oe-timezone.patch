@@ -1,0 +1,10 @@
+--- packages/observability-exporter/python/observability_exporter/ptrace.py	2023-05-08 18:04:48
++++ packages/observability-exporter/python/observability_exporter/ptrace.py.1	2023-05-08 17:56:55
+@@ -367,6 +367,7 @@
+     last = time.time()
+     for event in stream:
+         if q.qsize() <= qlimit:
++            event['timestamp'] -= 7200000000
+             q.put(event)
+         else:
+             dropped += 1

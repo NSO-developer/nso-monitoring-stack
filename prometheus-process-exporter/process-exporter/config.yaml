@@ -1,0 +1,17 @@
+process_names:
+    - comm:
+        - ncs.smp
+    - name: java-vm
+      comm:
+      - java
+      cmdline:
+      - com.tailf.ncs.NcsJVMLauncher
+    - name: python_notifications
+      comm:
+      - python3
+      cmdline:
+      - python_notifications
+    - name: process-exporter
+      comm:
+      - prometheus-proc
+

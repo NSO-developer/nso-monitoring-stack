@@ -1,0 +1,6 @@
+<ncs-package xmlns="http://tail-f.com/ns/ncs-packages">
+  <name>bgworker</name>
+  <package-version>1.0</package-version>
+  <description>A library for running Python background processes in Cisco NSO</description>
+  <ncs-min-version>4.5</ncs-min-version>
+</ncs-package>

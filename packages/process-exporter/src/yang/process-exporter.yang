@@ -1,0 +1,100 @@
+module process-exporter {
+
+  namespace "http://example.com/process-exporter";
+  prefix process-exporter;
+
+  import ietf-inet-types {
+    prefix inet;
+  }
+  import tailf-common {
+    prefix tailf;
+  }
+  import tailf-ncs {
+    prefix ncs;
+  }
+
+  description
+    "NSO process exporter config";
+
+  revision 2023-02-21 {
+    description
+      "Renamed to process-exporter.";
+  }
+
+  revision 2022-11-09 {
+    description
+      "Initial revision.";
+  }
+
+  container process-exporter {
+
+    container exporter {
+      leaf update-period {
+        type int8;
+        default 5;
+      }
+
+      container prometheus{
+        description "Export metrics derived from NSO metrics to prometheus";
+        leaf enabled {
+          type boolean;
+          default false;
+        }
+        leaf port {
+          type inet:port-number;
+          default 9090;
+        }
+
+      }
+
+      container influxdb {
+        description "Export metrics derived from NSO metrics to InfluxDB";
+        leaf enabled {
+          type boolean;
+          default false;
+        }
+        leaf host {
+          type inet:host;
+          description "InfluxDB host to export metrics to";
+        }
+      
+        leaf port {
+          type inet:port-number;
+          default 8086;
+          description "InfluxDB port to export metrics to";
+        }
+      
+        leaf username {
+          type string;
+          description "InfluxDB username";
+        }
+      
+        leaf password {
+          type tailf:aes-256-cfb-128-encrypted-string;
+          description "InfluxDB password";
+        }
+      
+        leaf database {
+          type string;
+          default "nso";
+          description "InfluxDB database name";
+        }
+
+        list extra-tags {
+          key name;
+          description "Extra tags to add to every exported measurement";
+
+          leaf name {
+            type string;
+            description "Name (key) of the tag";
+          }
+
+          leaf value {
+            type string;
+            description "Value of the tag";
+          }
+        }
+      }
+    }
+  }
+}

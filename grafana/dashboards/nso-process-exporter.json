@@ -1,0 +1,727 @@
+{
+    "meta": {
+        "type": "db",
+        "canSave": true,
+        "canEdit": true,
+        "canAdmin": true,
+        "canStar": false,
+        "canDelete": true,
+        "slug": "nso-process-monitor",
+        "url": "/d/KMz_xCS4z/nso-process-monitor",
+        "expires": "0001-01-01T00:00:00Z",
+        "created": "2022-11-21T06:30:27Z",
+        "updated": "2023-02-21T10:09:32Z",
+        "updatedBy": "Anonymous",
+        "createdBy": "Anonymous",
+        "version": 6,
+        "hasAcl": false,
+        "isFolder": false,
+        "folderId": 8,
+        "folderUid": "PizGCSK4k",
+        "folderTitle": "NSO Monitoring Stack",
+        "folderUrl": "/dashboards/f/PizGCSK4k/nso-monitoring-stack",
+        "provisioned": false,
+        "provisionedExternalId": "",
+        "annotationsPermissions": {
+            "dashboard": {
+                "canAdd": true,
+                "canEdit": true,
+                "canDelete": true
+            },
+            "organization": {
+                "canAdd": true,
+                "canEdit": true,
+                "canDelete": true
+            }
+        },
+        "publicDashboardAccessToken": "",
+        "publicDashboardUid": "",
+        "publicDashboardEnabled": false
+    },
+    "dashboard": {
+        "annotations": {
+            "list": [
+                {
+                    "$$hashKey": "object:564",
+                    "builtIn": 1,
+                    "datasource": {
+                        "type": "datasource",
+                        "uid": "grafana"
+                    },
+                    "enable": true,
+                    "hide": true,
+                    "iconColor": "rgba(0, 211, 255, 1)",
+                    "name": "Annotations & Alerts",
+                    "target": {
+                        "limit": 100,
+                        "matchAny": false,
+                        "tags": [],
+                        "type": "dashboard"
+                    },
+                    "type": "dashboard"
+                }
+            ]
+        },
+        "editable": true,
+        "fiscalYearStartMonth": 0,
+        "graphTooltip": 0,
+        "id": 3,
+        "links": [],
+        "liveNow": false,
+        "panels": [
+            {
+                "aliasColors": {},
+                "bars": false,
+                "dashLength": 10,
+                "dashes": false,
+                "datasource": {
+                    "type": "prometheus",
+                    "uid": "prometheus"
+                },
+                "fieldConfig": {
+                    "defaults": {
+                        "links": []
+                    },
+                    "overrides": []
+                },
+                "fill": 1,
+                "fillGradient": 0,
+                "gridPos": {
+                    "h": 8,
+                    "w": 12,
+                    "x": 0,
+                    "y": 0
+                },
+                "hiddenSeries": false,
+                "id": 6,
+                "legend": {
+                    "avg": false,
+                    "current": false,
+                    "max": false,
+                    "min": false,
+                    "show": true,
+                    "total": false,
+                    "values": false
+                },
+                "lines": true,
+                "linewidth": 1,
+                "nullPointMode": "null",
+                "options": {
+                    "alertThreshold": true
+                },
+                "percentage": false,
+                "pluginVersion": "9.2.5",
+                "pointradius": 2,
+                "points": false,
+                "renderer": "flot",
+                "seriesOverrides": [],
+                "spaceLength": 10,
+                "stack": false,
+                "steppedLine": false,
+                "targets": [
+                    {
+                        "datasource": {
+                            "type": "prometheus",
+                            "uid": "prometheus"
+                        },
+                        "expr": "nso_proc_cpu{name=\"ncs\"} ",
+                        "interval": "",
+                        "legendFormat": "",
+                        "refId": "A"
+                    },
+                    {
+                        "datasource": {
+                            "type": "prometheus",
+                            "uid": "prometheus"
+                        },
+                        "expr": "nso_proc_cpu{name=\"java-vm\"}",
+                        "interval": "",
+                        "legendFormat": "",
+                        "refId": "B"
+                    },
+                    {
+                        "datasource": {
+                            "type": "prometheus",
+                            "uid": "prometheus"
+                        },
+                        "editorMode": "code",
+                        "expr": "nso_proc_cpu_pkg",
+                        "interval": "",
+                        "legendFormat": "",
+                        "range": true,
+                        "refId": "C"
+                    }
+                ],
+                "thresholds": [],
+                "timeRegions": [],
+                "title": "CPU Utilization - Packages",
+                "tooltip": {
+                    "shared": true,
+                    "sort": 0,
+                    "value_type": "individual"
+                },
+                "type": "graph",
+                "xaxis": {
+                    "mode": "time",
+                    "show": true,
+                    "values": []
+                },
+                "yaxes": [
+                    {
+                        "$$hashKey": "object:748",
+                        "format": "short",
+                        "logBase": 1,
+                        "show": true
+                    },
+                    {
+                        "$$hashKey": "object:749",
+                        "format": "short",
+                        "logBase": 1,
+                        "show": true
+                    }
+                ],
+                "yaxis": {
+                    "align": false
+                }
+            },
+            {
+                "aliasColors": {},
+                "bars": false,
+                "dashLength": 10,
+                "dashes": false,
+                "datasource": {
+                    "type": "prometheus",
+                    "uid": "prometheus"
+                },
+                "fieldConfig": {
+                    "defaults": {
+                        "links": []
+                    },
+                    "overrides": []
+                },
+                "fill": 1,
+                "fillGradient": 0,
+                "gridPos": {
+                    "h": 8,
+                    "w": 12,
+                    "x": 12,
+                    "y": 0
+                },
+                "hiddenSeries": false,
+                "id": 10,
+                "legend": {
+                    "avg": false,
+                    "current": false,
+                    "max": false,
+                    "min": false,
+                    "show": true,
+                    "total": false,
+                    "values": false
+                },
+                "lines": true,
+                "linewidth": 1,
+                "nullPointMode": "null",
+                "options": {
+                    "alertThreshold": true
+                },
+                "percentage": false,
+                "pluginVersion": "9.2.5",
+                "pointradius": 2,
+                "points": false,
+                "renderer": "flot",
+                "seriesOverrides": [],
+                "spaceLength": 10,
+                "stack": false,
+                "steppedLine": false,
+                "targets": [
+                    {
+                        "datasource": {
+                            "type": "prometheus",
+                            "uid": "prometheus"
+                        },
+                        "expr": "nso_proc_cpu",
+                        "interval": "",
+                        "legendFormat": "",
+                        "refId": "A"
+                    }
+                ],
+                "thresholds": [],
+                "timeRegions": [],
+                "title": "CPU Utilization",
+                "tooltip": {
+                    "shared": true,
+                    "sort": 0,
+                    "value_type": "individual"
+                },
+                "type": "graph",
+                "xaxis": {
+                    "mode": "time",
+                    "show": true,
+                    "values": []
+                },
+                "yaxes": [
+                    {
+                        "$$hashKey": "object:85",
+                        "format": "short",
+                        "logBase": 1,
+                        "show": true
+                    },
+                    {
+                        "$$hashKey": "object:86",
+                        "format": "short",
+                        "logBase": 1,
+                        "show": true
+                    }
+                ],
+                "yaxis": {
+                    "align": false
+                }
+            },
+            {
+                "aliasColors": {},
+                "bars": false,
+                "dashLength": 10,
+                "dashes": false,
+                "datasource": {
+                    "type": "prometheus",
+                    "uid": "prometheus"
+                },
+                "fieldConfig": {
+                    "defaults": {
+                        "links": []
+                    },
+                    "overrides": []
+                },
+                "fill": 1,
+                "fillGradient": 0,
+                "gridPos": {
+                    "h": 8,
+                    "w": 12,
+                    "x": 0,
+                    "y": 8
+                },
+                "hiddenSeries": false,
+                "id": 8,
+                "legend": {
+                    "avg": false,
+                    "current": false,
+                    "max": false,
+                    "min": false,
+                    "show": true,
+                    "total": false,
+                    "values": false
+                },
+                "lines": true,
+                "linewidth": 1,
+                "nullPointMode": "null",
+                "options": {
+                    "alertThreshold": true
+                },
+                "percentage": false,
+                "pluginVersion": "9.2.5",
+                "pointradius": 2,
+                "points": false,
+                "renderer": "flot",
+                "seriesOverrides": [],
+                "spaceLength": 10,
+                "stack": false,
+                "steppedLine": false,
+                "targets": [
+                    {
+                        "datasource": {
+                            "type": "prometheus",
+                            "uid": "prometheus"
+                        },
+                        "expr": "nso_proc_mem{name=\"ncs\"} ",
+                        "interval": "",
+                        "legendFormat": "",
+                        "refId": "A"
+                    },
+                    {
+                        "datasource": {
+                            "type": "prometheus",
+                            "uid": "prometheus"
+                        },
+                        "expr": "nso_proc_mem{name=\"java-vm\"}",
+                        "interval": "",
+                        "legendFormat": "",
+                        "refId": "B"
+                    },
+                    {
+                        "datasource": {
+                            "type": "prometheus",
+                            "uid": "prometheus"
+                        },
+                        "editorMode": "code",
+                        "expr": "nso_proc_mem_pkg",
+                        "interval": "",
+                        "legendFormat": "",
+                        "range": true,
+                        "refId": "C"
+                    }
+                ],
+                "thresholds": [],
+                "timeRegions": [],
+                "title": "Memory Usage - Packages",
+                "tooltip": {
+                    "shared": true,
+                    "sort": 0,
+                    "value_type": "individual"
+                },
+                "type": "graph",
+                "xaxis": {
+                    "mode": "time",
+                    "show": true,
+                    "values": []
+                },
+                "yaxes": [
+                    {
+                        "$$hashKey": "object:401",
+                        "format": "decmbytes",
+                        "logBase": 1,
+                        "show": true
+                    },
+                    {
+                        "$$hashKey": "object:402",
+                        "format": "short",
+                        "logBase": 1,
+                        "show": true
+                    }
+                ],
+                "yaxis": {
+                    "align": false
+                }
+            },
+            {
+                "aliasColors": {},
+                "bars": false,
+                "dashLength": 10,
+                "dashes": false,
+                "datasource": {
+                    "type": "prometheus",
+                    "uid": "prometheus"
+                },
+                "fieldConfig": {
+                    "defaults": {
+                        "links": []
+                    },
+                    "overrides": []
+                },
+                "fill": 1,
+                "fillGradient": 0,
+                "gridPos": {
+                    "h": 8,
+                    "w": 12,
+                    "x": 12,
+                    "y": 8
+                },
+                "hiddenSeries": false,
+                "id": 4,
+                "legend": {
+                    "avg": false,
+                    "current": false,
+                    "max": false,
+                    "min": false,
+                    "show": true,
+                    "total": false,
+                    "values": false
+                },
+                "lines": true,
+                "linewidth": 1,
+                "nullPointMode": "null",
+                "options": {
+                    "alertThreshold": true
+                },
+                "percentage": false,
+                "pluginVersion": "9.2.5",
+                "pointradius": 2,
+                "points": false,
+                "renderer": "flot",
+                "seriesOverrides": [],
+                "spaceLength": 10,
+                "stack": false,
+                "steppedLine": false,
+                "targets": [
+                    {
+                        "datasource": {
+                            "type": "prometheus",
+                            "uid": "prometheus"
+                        },
+                        "expr": "nso_proc_mem",
+                        "interval": "",
+                        "legendFormat": "",
+                        "refId": "A"
+                    }
+                ],
+                "thresholds": [],
+                "timeRegions": [],
+                "title": "Memory Usage",
+                "tooltip": {
+                    "shared": true,
+                    "sort": 0,
+                    "value_type": "individual"
+                },
+                "type": "graph",
+                "xaxis": {
+                    "mode": "time",
+                    "show": true,
+                    "values": []
+                },
+                "yaxes": [
+                    {
+                        "$$hashKey": "object:142",
+                        "format": "decmbytes",
+                        "logBase": 1,
+                        "show": true
+                    },
+                    {
+                        "$$hashKey": "object:143",
+                        "format": "short",
+                        "logBase": 1,
+                        "show": true
+                    }
+                ],
+                "yaxis": {
+                    "align": false
+                }
+            },
+            {
+                "aliasColors": {},
+                "bars": false,
+                "dashLength": 10,
+                "dashes": false,
+                "datasource": {
+                    "type": "prometheus",
+                    "uid": "prometheus"
+                },
+                "fieldConfig": {
+                    "defaults": {
+                        "links": []
+                    },
+                    "overrides": []
+                },
+                "fill": 1,
+                "fillGradient": 0,
+                "gridPos": {
+                    "h": 8,
+                    "w": 12,
+                    "x": 0,
+                    "y": 16
+                },
+                "hiddenSeries": false,
+                "id": 9,
+                "legend": {
+                    "avg": false,
+                    "current": false,
+                    "max": false,
+                    "min": false,
+                    "show": true,
+                    "total": false,
+                    "values": false
+                },
+                "lines": true,
+                "linewidth": 1,
+                "nullPointMode": "null",
+                "options": {
+                    "alertThreshold": true
+                },
+                "percentage": false,
+                "pluginVersion": "9.2.5",
+                "pointradius": 2,
+                "points": false,
+                "renderer": "flot",
+                "seriesOverrides": [],
+                "spaceLength": 10,
+                "stack": false,
+                "steppedLine": false,
+                "targets": [
+                    {
+                        "datasource": {
+                            "type": "prometheus",
+                            "uid": "prometheus"
+                        },
+                        "expr": "nso_proc_conn{name=\"ncs\"} ",
+                        "interval": "",
+                        "legendFormat": "",
+                        "refId": "A"
+                    },
+                    {
+                        "datasource": {
+                            "type": "prometheus",
+                            "uid": "prometheus"
+                        },
+                        "expr": "nso_proc_conn{name=\"java-vm\"}",
+                        "interval": "",
+                        "legendFormat": "",
+                        "refId": "B"
+                    },
+                    {
+                        "datasource": {
+                            "type": "prometheus",
+                            "uid": "prometheus"
+                        },
+                        "editorMode": "code",
+                        "expr": "nso_proc_conn_pkg",
+                        "interval": "",
+                        "legendFormat": "",
+                        "range": true,
+                        "refId": "C"
+                    }
+                ],
+                "thresholds": [],
+                "timeRegions": [],
+                "title": "Connections - Packages",
+                "tooltip": {
+                    "shared": true,
+                    "sort": 0,
+                    "value_type": "individual"
+                },
+                "type": "graph",
+                "xaxis": {
+                    "mode": "time",
+                    "show": true,
+                    "values": []
+                },
+                "yaxes": [
+                    {
+                        "$$hashKey": "object:172",
+                        "format": "short",
+                        "logBase": 1,
+                        "show": true
+                    },
+                    {
+                        "$$hashKey": "object:173",
+                        "format": "short",
+                        "logBase": 1,
+                        "show": true
+                    }
+                ],
+                "yaxis": {
+                    "align": false
+                }
+            },
+            {
+                "aliasColors": {},
+                "bars": false,
+                "dashLength": 10,
+                "dashes": false,
+                "datasource": {
+                    "type": "prometheus",
+                    "uid": "prometheus"
+                },
+                "fieldConfig": {
+                    "defaults": {
+                        "links": []
+                    },
+                    "overrides": []
+                },
+                "fill": 1,
+                "fillGradient": 0,
+                "gridPos": {
+                    "h": 9,
+                    "w": 12,
+                    "x": 12,
+                    "y": 16
+                },
+                "hiddenSeries": false,
+                "id": 2,
+                "legend": {
+                    "avg": false,
+                    "current": false,
+                    "max": false,
+                    "min": false,
+                    "show": true,
+                    "total": false,
+                    "values": false
+                },
+                "lines": true,
+                "linewidth": 1,
+                "nullPointMode": "null",
+                "options": {
+                    "alertThreshold": true
+                },
+                "percentage": false,
+                "pluginVersion": "9.2.5",
+                "pointradius": 2,
+                "points": false,
+                "renderer": "flot",
+                "seriesOverrides": [],
+                "spaceLength": 10,
+                "stack": false,
+                "steppedLine": false,
+                "targets": [
+                    {
+                        "datasource": {
+                            "type": "prometheus",
+                            "uid": "prometheus"
+                        },
+                        "expr": "nso_proc_conn",
+                        "instant": false,
+                        "interval": "",
+                        "legendFormat": "",
+                        "refId": "A"
+                    }
+                ],
+                "thresholds": [],
+                "timeRegions": [],
+                "title": "Connections",
+                "tooltip": {
+                    "shared": true,
+                    "sort": 0,
+                    "value_type": "individual"
+                },
+                "type": "graph",
+                "xaxis": {
+                    "mode": "time",
+                    "show": true,
+                    "values": []
+                },
+                "yaxes": [
+                    {
+                        "format": "short",
+                        "logBase": 1,
+                        "show": true
+                    },
+                    {
+                        "format": "short",
+                        "logBase": 1,
+                        "show": true
+                    }
+                ],
+                "yaxis": {
+                    "align": false
+                }
+            }
+        ],
+        "refresh": false,
+        "schemaVersion": 37,
+        "style": "dark",
+        "tags": [],
+        "templating": {
+            "list": []
+        },
+        "time": {
+            "from": "now-5m",
+            "to": "now"
+        },
+        "timepicker": {
+            "refresh_intervals": [
+                "5s",
+                "10s",
+                "30s",
+                "1m",
+                "5m",
+                "15m",
+                "30m",
+                "1h",
+                "2h",
+                "1d"
+            ]
+        },
+        "timezone": "",
+        "title": "NSO Process Monitor",
+        "uid": "KMz_xCS4z",
+        "version": 6,
+        "weekStart": ""
+    }
+}

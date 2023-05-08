@@ -1,0 +1,26 @@
+ARGS="-config.path /etc/process-exporter/config.yaml"
+
+# Prometheus-process-exporter supports the following options:
+#  -children
+#        if a proc is tracked, track with it any children that aren't part of their own group
+#        (default true)
+#  -config.path string
+#        path to YAML config file
+#  -debug
+#        log debugging information to stdout
+#  -man
+#        print manual
+#  -namemapping string
+#        comma-separated list, alternating process name and capturing regex to apply to cmdline
+#  -once-to-stdout-delay duration
+#        Don't bind, just wait this much time, print the metrics once to stdout, and exit
+#  -procfs string
+#        path to read proc data from (default "/proc")
+#  -procnames string
+#        comma-separated list of process names to monitor
+#  -recheck
+#        recheck process names on each scrape
+#  -web.listen-address string
+#        Address on which to expose metrics and web interface. (default ":9256")
+#  -web.telemetry-path string
+#        Path under which to expose metrics. (default "/metrics")

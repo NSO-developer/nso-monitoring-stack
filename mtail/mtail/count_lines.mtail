@@ -1,0 +1,4 @@
+counter logs_lines_total
+/$/ {
+  logs_lines_total++
+}

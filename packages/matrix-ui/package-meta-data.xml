@@ -1,0 +1,6 @@
+<ncs-package xmlns="http://tail-f.com/ns/ncs-packages">
+  <name>matrix-ui</name>
+  <package-version>1.0</package-version>
+  <description>The Matrix Monitor</description>
+  <ncs-min-version>3.0</ncs-min-version>
+</ncs-package>

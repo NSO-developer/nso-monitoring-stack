@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <link rel="icon" type="image/png" href="favicon.png">
+        <script src="script.js"></script>
+        <title>The Matrix</title>
+    </head>
+    <body>
+        <div>
+            <div class="header" id="header" style="background: rgb(255, 255, 255); z-index: 1;">
+                <div style="max-width: 1600px; height: 70px; display: flex; margin: 0px auto; padding: 0px 1rem;">
+                    <a href="/webui-one/" style="align-self: center;">
+                        <img src="/dist/cisco.svg" alt="Cisco" style="width: 60px; height: 60px; margin-left: 6px; margin-right: 2rem;">
+                    </a>
+                    <div data-handle="headerTitle" style="align-self: center; white-space: nowrap; line-height: normal; font-family: CiscoSansTT, Arial, sans-serif; font-weight: 100;">
+                        <div style="font-size: 1.25rem; color: rgb(57, 57, 59);">ULRIK</div>
+                        <div style="font-size: 0.5625rem; color: rgb(158, 158, 162); font-family: CiscoSansTT, Arial, sans-serif; font-weight: normal; font-stretch: condensed;">NSO VERSION:6.0.2</div>
+                    </div>
+                    <div style="margin-left: auto; display: flex;">
+                        <div data-handle="headerUser" style="align-self: center; font-size: 0.875rem; z-index: 1; font-family: CiscoSansTT, Arial, sans-serif; font-weight: normal; font-stretch: condensed;">
+                            <div><span></span></div>
+                            <div style="position: relative;"><button type="button" data-handle="toggle-dropdown" tabindex="0" style="cursor: pointer; white-space: nowrap; background-color: rgb(255, 255, 255); color: rgb(4, 159, 217); border: medium; font-size: 1rem; min-width: 5rem; font-family: CiscoSansTT, Arial, sans-serif; font-weight: normal; font-stretch: condensed;">
+                                    <div style="display: flex; row-gap: 0.3125rem; column-gap: 0.3125rem; align-items: center;">
+                                        <div data-handle="username" style="flex-shrink: 0; max-width: 20ch; overflow: hidden; text-overflow: ellipsis;">admin</div>
+                                        <div style="width: 0.625rem; align-items: center; fill: rgb(4, 159, 217); stroke: rgb(4, 159, 217); transition: transform 200ms ease-out;">
+                                            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 48 48" enable-background="new 0 0 48 48">
+                                                <path stroke-width="3" d="M2,13.6c0-0.5,0.2-1,0.6-1.4c0.8-0.8,2-0.8,2.8,0L24,30.8l18.6-18.6c0.8-0.8,2-0.8,2.8,0s0.8,2,0,2.8 L24,36.4L2.6,15C2.2,14.6,2,14.1,2,13.6z"></path>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="height: 10px; margin-top: -10px; box-shadow: rgba(0, 0, 0, 0.25) 0px 5px 5px 0px;"></div>
+            </div>
+            <div class="theend" id="theend">
+                <!--a href="/webui-one/" class="header-link">
+                    <img src="nso.svg" alt="NSO" class="nsologo">
+                </a-->
+                <div>
+                    <a href="/webui-one/" class="">
+                        <img src="cisco.svg" class="ciscologo">
+                    </a>
+                    <p id="theendtext">The bridge to possible</p>
+                </div>
+            </div>
+            <div class="content">
+                <!--h1 id="matrix" >The Matrix manager</h1-->
+                <canvas width="500" height="600" id="thematrix" />
+                <div>
+                    <a class="link-button" href="/webui-one">Return to Cisco NSO WebUI</a>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

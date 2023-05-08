@@ -1,0 +1,222 @@
+{
+    "meta": {
+        "type": "db",
+        "canSave": true,
+        "canEdit": true,
+        "canAdmin": true,
+        "canStar": false,
+        "canDelete": true,
+        "slug": "nso-traces",
+        "url": "/d/anll72DVz/nso-traces",
+        "expires": "0001-01-01T00:00:00Z",
+        "created": "2022-11-23T09:57:23Z",
+        "updated": "2023-02-16T19:57:55Z",
+        "updatedBy": "Anonymous",
+        "createdBy": "Anonymous",
+        "version": 6,
+        "hasAcl": false,
+        "isFolder": false,
+        "folderId": 8,
+        "folderUid": "PizGCSK4k",
+        "folderTitle": "NSO Monitoring Stack",
+        "folderUrl": "/dashboards/f/PizGCSK4k/nso-monitoring-stack",
+        "provisioned": false,
+        "provisionedExternalId": "",
+        "annotationsPermissions": {
+            "dashboard": {
+                "canAdd": true,
+                "canEdit": true,
+                "canDelete": true
+            },
+            "organization": {
+                "canAdd": true,
+                "canEdit": true,
+                "canDelete": true
+            }
+        },
+        "publicDashboardAccessToken": "",
+        "publicDashboardUid": "",
+        "publicDashboardEnabled": false
+    },
+    "dashboard": {
+        "annotations": {
+            "list": [
+                {
+                    "builtIn": 1,
+                    "datasource": {
+                        "type": "grafana",
+                        "uid": "-- Grafana --"
+                    },
+                    "enable": true,
+                    "hide": true,
+                    "iconColor": "rgba(0, 211, 255, 1)",
+                    "name": "Annotations & Alerts",
+                    "target": {
+                        "limit": 100,
+                        "matchAny": false,
+                        "tags": [],
+                        "type": "dashboard"
+                    },
+                    "type": "dashboard"
+                }
+            ]
+        },
+        "editable": true,
+        "fiscalYearStartMonth": 0,
+        "graphTooltip": 0,
+        "id": 6,
+        "links": [],
+        "liveNow": false,
+        "panels": [
+            {
+                "datasource": {
+                    "type": "tempo",
+                    "uid": "tempo"
+                },
+                "fieldConfig": {
+                    "defaults": {
+                        "color": {
+                            "mode": "thresholds"
+                        },
+                        "custom": {
+                            "align": "auto",
+                            "displayMode": "auto",
+                            "inspect": false
+                        },
+                        "mappings": [],
+                        "thresholds": {
+                            "mode": "absolute",
+                            "steps": [
+                                {
+                                    "color": "green",
+                                    "value": null
+                                },
+                                {
+                                    "color": "red",
+                                    "value": 80
+                                }
+                            ]
+                        }
+                    },
+                    "overrides": []
+                },
+                "gridPos": {
+                    "h": 9,
+                    "w": 12,
+                    "x": 0,
+                    "y": 0
+                },
+                "id": 2,
+                "options": {
+                    "footer": {
+                        "fields": "",
+                        "reducer": [
+                            "sum"
+                        ],
+                        "show": false
+                    },
+                    "showHeader": true
+                },
+                "pluginVersion": "9.2.5",
+                "targets": [
+                    {
+                        "datasource": {
+                            "type": "tempo",
+                            "uid": "tempo"
+                        },
+                        "query": "",
+                        "queryType": "nativeSearch",
+                        "refId": "A",
+                        "search": "",
+                        "serviceName": "NSO"
+                    }
+                ],
+                "title": "Panel Title",
+                "type": "table"
+            },
+            {
+                "datasource": {
+                    "type": "tempo",
+                    "uid": "tempo"
+                },
+                "fieldConfig": {
+                    "defaults": {
+                        "color": {
+                            "mode": "thresholds"
+                        },
+                        "custom": {
+                            "align": "auto",
+                            "displayMode": "auto",
+                            "inspect": false
+                        },
+                        "mappings": [],
+                        "thresholds": {
+                            "mode": "absolute",
+                            "steps": [
+                                {
+                                    "color": "green",
+                                    "value": null
+                                },
+                                {
+                                    "color": "red",
+                                    "value": 80
+                                }
+                            ]
+                        }
+                    },
+                    "overrides": []
+                },
+                "gridPos": {
+                    "h": 9,
+                    "w": 12,
+                    "x": 0,
+                    "y": 9
+                },
+                "id": 3,
+                "options": {
+                    "footer": {
+                        "fields": "",
+                        "reducer": [
+                            "sum"
+                        ],
+                        "show": false
+                    },
+                    "showHeader": true
+                },
+                "pluginVersion": "9.2.5",
+                "targets": [
+                    {
+                        "datasource": {
+                            "type": "tempo",
+                            "uid": "tempo"
+                        },
+                        "query": "",
+                        "queryType": "nativeSearch",
+                        "refId": "A",
+                        "search": "",
+                        "serviceName": "NSO",
+                        "spanName": "foo"
+                    }
+                ],
+                "title": "Panel Title",
+                "type": "table"
+            }
+        ],
+        "schemaVersion": 37,
+        "style": "dark",
+        "tags": [],
+        "templating": {
+            "list": []
+        },
+        "time": {
+            "from": "now-6h",
+            "to": "now"
+        },
+        "timepicker": {},
+        "timezone": "",
+        "title": "NSO Traces",
+        "uid": "anll72DVz",
+        "version": 6,
+        "weekStart": ""
+    }
+}

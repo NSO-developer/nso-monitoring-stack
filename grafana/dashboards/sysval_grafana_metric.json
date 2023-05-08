@@ -1,0 +1,241 @@
+{
+    "dashboard": {
+        "annotations": {
+            "list": [
+                {
+                    "builtIn": 1,
+                    "datasource": "-- Grafana --",
+                    "enable": true,
+                    "hide": true,
+                    "iconColor": "rgba(0, 211, 255, 1)",
+                    "name": "Annotations & Alerts",
+                    "target": {
+                        "limit": 100,
+                        "matchAny": false,
+                        "tags": [],
+                        "type": "dashboard"
+                    },
+                    "type": "dashboard"
+                },
+                {
+                    "datasource": "-- Grafana --",
+                    "enable": true,
+                    "hide": true,
+                    "iconColor": "red",
+                    "name": "Hostname Markers",
+                    "target": {
+                        "limit": 100,
+                        "matchAny": true,
+                        "tags": [
+                            "$host_hostname"
+                        ],
+                        "type": "tags"
+                    }
+                }
+            ]
+        },
+        "editable": true,
+        "fiscalYearStartMonth": 0,
+        "graphTooltip": 0,
+        "iteration": 1668427635421,
+        "links": [],
+        "liveNow": true,
+        "panels": [
+            {
+                "collapsed": false,
+                "gridPos": {
+                    "h": 1,
+                    "w": 24,
+                    "x": 0,
+                    "y": 0
+                },
+                "id": 8,
+                "panels": [],
+                "repeat": "metric",
+                "title": "$metric",
+                "type": "row"
+            },
+            {
+                "datasource": {
+                    "type": "influxdb",
+                    "uid": "${testdatabase}"
+                },
+                "fieldConfig": {
+                    "defaults": {
+                        "color": {
+                            "mode": "palette-classic"
+                        },
+                        "custom": {
+                            "axisLabel": "",
+                            "axisPlacement": "auto",
+                            "barAlignment": 0,
+                            "drawStyle": "line",
+                            "fillOpacity": 0,
+                            "gradientMode": "none",
+                            "hideFrom": {
+                                "legend": false,
+                                "tooltip": false,
+                                "viz": false
+                            },
+                            "lineInterpolation": "linear",
+                            "lineWidth": 1,
+                            "pointSize": 5,
+                            "scaleDistribution": {
+                                "type": "linear"
+                            },
+                            "showPoints": "auto",
+                            "spanNulls": false,
+                            "stacking": {
+                                "group": "A",
+                                "mode": "none"
+                            },
+                            "thresholdsStyle": {
+                                "mode": "off"
+                            }
+                        },
+                        "mappings": [],
+                        "thresholds": {
+                            "mode": "absolute",
+                            "steps": [
+                                {
+                                    "color": "green",
+                                    "value": null
+                                },
+                                {
+                                    "color": "red",
+                                    "value": 80
+                                }
+                            ]
+                        }
+                    },
+                    "overrides": []
+                },
+                "gridPos": {
+                    "h": 8,
+                    "w": 12,
+                    "x": 0,
+                    "y": 1
+                },
+                "id": 6,
+                "options": {
+                    "legend": {
+                        "calcs": [],
+                        "displayMode": "list",
+                        "placement": "bottom"
+                    },
+                    "tooltip": {
+                        "mode": "single",
+                        "sort": "none"
+                    }
+                },
+                "targets": [
+                    {
+                        "datasource": {
+                            "type": "influxdb",
+                            "uid": "${testdatabase}"
+                        },
+                        "hide": false,
+                        "query": "SELECT \"counter\" FROM $metric WHERE \"host_hostname\" = '${host_hostname:text}' AND $timeFilter GROUP BY \"hostname\"",
+                        "rawQuery": true,
+                        "refId": "B",
+                        "resultFormat": "time_series"
+                    },
+                    {
+                        "datasource": {
+                            "type": "influxdb",
+                            "uid": "${testdatabase}"
+                        },
+                        "hide": false,
+                        "query": "SELECT \"gauge\" FROM $metric WHERE \"host_hostname\" = '${host_hostname:text}' AND $timeFilter GROUP BY \"hostname\"",
+                        "rawQuery": true,
+                        "refId": "A",
+                        "resultFormat": "time_series"
+                    }
+                ],
+                "title": "$metric",
+                "type": "timeseries"
+            }
+        ],
+        "refresh": false,
+        "style": "dark",
+        "tags": [],
+        "templating": {
+            "list": [
+                {
+                    "current": {
+                        "selected": true,
+                        "text": [
+                            "All"
+                        ],
+                        "value": [
+                            "$__all"
+                        ]
+                    },
+                    "datasource": {
+                        "type": "influxdb",
+                        "uid": "${testdatabase}"
+                    },
+                    "definition": "SHOW MEASUREMENTS",
+                    "hide": 0,
+                    "includeAll": true,
+                    "label": "metric",
+                    "multi": true,
+                    "name": "metric",
+                    "options": [],
+                    "query": "SHOW MEASUREMENTS",
+                    "refresh": 1,
+                    "regex": "/sysadmin.*/",
+                    "skipUrlSync": false,
+                    "sort": 0,
+                    "type": "query"
+                },
+                {
+                    "current": {
+                        "selected": false,
+                        "text": "All",
+                        "value": "$__all"
+                    },
+                    "datasource": {
+                        "type": "influxdb",
+                        "uid": "${testdatabase}"
+                    },
+                    "definition": "SHOW TAG VALUES WITH KEY = \"host_hostname\"",
+                    "hide": 0,
+                    "includeAll": true,
+                    "label": "host_hostname",
+                    "multi": true,
+                    "name": "host_hostname",
+                    "options": [],
+                    "query": "SHOW TAG VALUES WITH KEY = \"host_hostname\"",
+                    "refresh": 1,
+                    "regex": "",
+                    "skipUrlSync": false,
+                    "sort": 0,
+                    "type": "query"
+                },
+                {
+                    "current": {
+                        "selected": false,
+                        "text": "appnotes",
+                        "value": "appnotes"
+                    },
+                    "hide": 0,
+                    "includeAll": false,
+                    "label": "TestDataBase",
+                    "multi": false,
+                    "name": "testdatabase",
+                    "options": [],
+                    "query": "influxdb",
+                    "refresh": 1,
+                    "regex": "",
+                    "skipUrlSync": false,
+                    "type": "datasource"
+                }
+            ]
+        },
+        "timepicker": {},
+        "timezone": "",
+        "title": "NSO Metrics",
+        "uid": "wpukmJ4Vz"
+    }
+}

@@ -1,0 +1,8 @@
+<config xmlns="http://tail-f.com/ns/config/1.0">
+  <metric-exporter xmlns="http://example.com/metric-exporter">
+    <prometheus>
+      <enabled>true</enabled>
+      <port>9098</port>
+    </prometheus>
+  </metric-exporter>
+</config>
