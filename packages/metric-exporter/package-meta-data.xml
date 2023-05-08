@@ -1,0 +1,16 @@
+<ncs-package xmlns="http://tail-f.com/ns/ncs-packages">
+  <name>metric-exporter</name>
+  <package-version>1.0</package-version>
+  <description>Generated Python package</description>
+  <ncs-min-version>6.0</ncs-min-version>
+  <required-package>
+    <name>bgworker</name>
+  </required-package>
+
+  <component>
+    <name>main</name>
+    <application>
+      <python-class-name>metric_exporter.main.Main</python-class-name>
+    </application>
+  </component>
+</ncs-package>
