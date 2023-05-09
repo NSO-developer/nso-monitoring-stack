@@ -36,6 +36,8 @@ def parseArgs(args):
                         action='count', default=0)
     parser.add_argument("-e",  nargs='*',
                         help='additional process(es) to monitor')
+    parser.add_argument("-x",  nargs='*',
+                        help='process(es) to exclude')
     parser.add_argument("-o", type=str,
                         help='save metrics as csv')
     return parser.parse_args(args)
@@ -197,7 +199,8 @@ def get_pids(name):
 
 #TODO: This only returns the Process object.
 #      It should also provide package info for python processes.
-def get_ncs_processes(pid):
+def get_ncs_processes(pid, exclude_packages=None):
+    exclude_packages = exclude_packages or []
     ncs = psutil.Process(pid=pid)
     erl_child_setup = ncs.children()[0] # Assuming only 1 child
     assert erl_child_setup.name() == 'erl_child_setup' 
@@ -210,8 +213,10 @@ def get_ncs_processes(pid):
                 print("ERROR: More than one java process found.")
                 sys.exit(2)
             java = child
+        if '/' in name: 
+            name = name.split('/')[:-1]
         if name[:6] == 'python':
-            if get_python_service_name(child) != 'python-service': continue
+            if get_python_service_name(child) in exclude_packages: continue
             python.append(child)
             for sp in child.children():
                 python.append(sp)
@@ -239,7 +244,7 @@ def main(args):
             sys.exit(1)
         else:
             pid = args.pid
-        procs = get_ncs_processes(pid)
+        procs = get_ncs_processes(pid, args.x)
         if args.e:
             _, _, python = procs
             for e in args.e:
