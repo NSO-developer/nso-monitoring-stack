@@ -1,0 +1,262 @@
+#!/usr/bin/env python3
+# -*- mode: python; python-indent: 4 -*-
+
+import argparse
+from base64 import b64encode
+from datetime import datetime
+import http.client
+import json
+import sys
+import time
+
+import psutil
+
+
+"""
+TODO:
+ - Handle packages reloads..
+ - Add verbose flag. Use with -i and -t
+ - Print headers
+"""
+
+
+def parseArgs(args):
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-p', '--pid', type=int,
+                        help='ncs-smp process id')
+    parser.add_argument('-c', action='store_true', default=False,
+                        help='Show commit-queue length')
+    parser.add_argument('-d', type=int, default=5,
+                        help='interval between printing stats')
+    parser.add_argument("-m", '--mon',  required=False,
+                        action='store_true', default=False)
+    parser.add_argument("-t", '--tree',  required=False,
+                        action='store_true', default=False)
+    parser.add_argument("-i", '--info',  required=False,
+                        action='count', default=0)
+    parser.add_argument("-e",  nargs='*',
+                        help='additional process(es) to monitor')
+    parser.add_argument("-o", type=str,
+                        help='save metrics as csv')
+    return parser.parse_args(args)
+
+
+HEADERS_JSON={
+    'Accept':'application/yang-data+json',
+    'Accept-Encoding': 'identity', # Prevent NSO from gzipping the data
+    'Content-type': 'application/yang-data+json',
+    'Authorization': 'Basic %s' % b64encode(b"admin:admin").decode("ascii")
+}
+
+conn = http.client.HTTPConnection('localhost:8080')
+
+def get_cq_length():
+    global conn
+    try:
+        if conn is None:
+            return '-'
+        else:
+            conn.request('GET', '/restconf/data/tailf-ncs:metric/sysadmin/gauge/commit-queue/item', headers=HEADERS_JSON)
+            r = conn.getresponse()
+            data = r.read()
+            if r.status==200:
+                return json.loads(data)['tailf-ncs:item']
+    except ConnectionRefusedError:
+        conn = None
+        return "err"
+    except:
+        conn = None
+        return "err"
+
+
+def print_tree_process(p, indent=0):
+    print('{:<50}{}'.format('    '*indent+p.name()+' ({})'.format(p.pid), get_python_service_name(p)))
+    for c in p.children():
+        print_tree_process(c, indent+1)
+def print_tree_pid(pid, indent=0):
+    p = psutil.Process(pid=pid)
+    print_tree_process(p, indent+1)
+
+
+def print_details(args, pid):
+    p = psutil.Process(pid=pid)
+    with p.oneshot():
+        print("pid:                ", p.pid)
+        print("name:               ", p.name())
+        print("memory (MB):        ", round(p.memory_info()[0]/1048576))
+        print("cpu (%):            ", p.cpu_percent())
+        print("open files:         ", len(p.open_files()))
+        print("open connections:   ", len(p.connections()))
+        if args.c:
+            print("commit-queue length:", get_cq_length())
+        if args.info>1:
+            print("cmdline:")
+            pos = 0
+            for c in p.cmdline():
+                if pos == 0:
+                    print("                 ", c, end='')
+                elif c[0] == '-':
+                    print("\n                 ", c, end='')
+                else:
+                    print('', c, end='')
+                pos += 1
+            print()
+
+            print("environment:")
+            for n,v in p.environ().items():
+                print("                 ", n, "=", v)
+
+
+def get_info(p):
+    with p.oneshot():
+        mem = p.memory_info()[0]/1048576 # RSS MB
+        cpu = p.cpu_percent()
+        try:
+            conn = len(p.connections())
+        except OSError as e:
+            if e.errno == 38:
+                conn = len(p.connections())
+            else:
+                conn = -1
+    return (mem, cpu, conn)
+
+
+def get_python_service_name(p):
+    try:
+        cmdline = p.cmdline()
+        i = cmdline.index('-i')
+        return cmdline[i+1]
+    except ValueError:
+        pass
+    except IndexError:
+        pass
+    return ''
+    return p.name()
+
+
+def save_metrics(args, metrics):
+    if args.o:
+        with open(args.o, 'a') as f:
+            f.write(','.join(metrics))
+            f.write('\n')
+
+def monitor(args, procs):
+    ncs, java, python = procs
+    start = time.monotonic()
+    headers = [ ncs.name(), 'java-vm' ]
+    for p in python:
+        headers.append(get_python_service_name(p))
+    print(' '*27, end='')
+    if args.c:
+        print('  cq-len', end='')
+    for h in headers:
+        print(f'  {h[:19]:^19s}', end='')
+    print()
+    print('-'*27, end='')
+    if args.c:
+        print('-'*8, end='')
+    for h in headers:
+        print('-'*21, end='')
+    print()
+    csv_headers = ['timestamp']
+    for h in headers:
+        for ht in ['mem', 'cpu', 'sock']:
+            csv_headers.append('-'.join([h, ht]))
+    save_metrics(args, csv_headers)
+    while True:
+        #t = int(time.monotonic()-start)
+        t = datetime.now().isoformat()
+        mem, cpu, conn = get_info(ncs)
+        metrics = [ t, mem, cpu, conn ]
+        if java is not None:
+            jmem, jcpu, jconn = get_info(java)
+            metrics.extend([jmem, jcpu, jconn])
+        pinfo = [ get_info(p) for p in python ]
+        print(f'{t:<27s}', end='')
+        if args.c:
+            print(f'  {get_cq_length():>6}', end='')
+        print(f'  {mem:>5.0f}M {cpu:>5.1f}% {conn:>4}s', end='')
+        if java is not None:
+            print(f'  {jmem:>5.0f}M {jcpu:>5.1f}% {jconn:>4}s', end='')
+        for pmem, pcpu, pconn in pinfo:
+            print(f'  {pmem:>5.0f}M {pcpu:>5.1f}% {pconn:>4}s', end='')
+            metrics.extend([pmem, pcpu, pconn])
+        print()
+        if args.o:
+            save_metrics(args, map(lambda e: str(e), metrics))
+        time.sleep(args.d)
+
+
+def get_pids(name):
+    for p in psutil.process_iter(['pid', 'name']):
+        if p.info['name'] == name:
+            yield p.pid
+    ncs_pids = [ get_pids(name) ]
+    return ncs_pids
+
+
+#TODO: This only returns the Process object.
+#      It should also provide package info for python processes.
+def get_ncs_processes(pid):
+    ncs = psutil.Process(pid=pid)
+    erl_child_setup = ncs.children()[0] # Assuming only 1 child
+    assert erl_child_setup.name() == 'erl_child_setup' 
+    java = None
+    python = []
+    for child in erl_child_setup.children():
+        name = child.name()
+        if name == 'java':
+            if java is not None:
+                print("ERROR: More than one java process found.")
+                sys.exit(2)
+            java = child
+        if name[:6] == 'python':
+            if get_python_service_name(child) != 'python-service': continue
+            python.append(child)
+            for sp in child.children():
+                python.append(sp)
+    assert(java is not None)
+    return (ncs, java, python)
+
+
+def print_pids(pids):
+    for p in pids:
+        print(f"{p:>6}  {psutil.Process(pid=p).cwd()}")
+
+
+def main(args):
+    pids = list(get_pids('ncs.smp')) + list(get_pids('beam.smp'))
+    if len(pids) == 0:
+        print("No ncs.smp processes are running.")
+        sys.exit(1)
+    if args.mon:
+        if len(pids)==1:
+            pid = pids[0]
+        elif args.pid is None:
+            print("There are multiple ncs.smp processes running:")
+            print_pids(pids)
+            print("Use -p/--pid to monitor one.")
+            sys.exit(1)
+        else:
+            pid = args.pid
+        procs = get_ncs_processes(pid)
+        if args.e:
+            _, _, python = procs
+            for e in args.e:
+                python += [psutil.Process(pid=pid) for pid in get_pids(e)]
+        monitor(args, procs)
+    elif args.tree:
+        if args.pid: pids = [args.pid]
+        for p in pids:
+            print_tree_pid(p)
+    elif args.info:
+        if args.pid: pids = [args.pid]
+        for p in pids:
+            print_details(args, p)
+    else:
+        print("Running ncs.smp processes:")
+        print_pids(pids)
+
+
+if __name__ == '__main__':
+    main(parseArgs(sys.argv[1:]))
