@@ -131,12 +131,19 @@ class ServiceCallbacks(Service):
         global states
         states['cb_create'] += 1
         self.log.info('Service create(service=', service._path, ')')
-        time.sleep(service.delay/1000)
+        th = ncs.maagic.get_trans(root)
+        prg = th.report_service_progress_start(_ncs.VERBOSITY_DEBUG,
+                             'Between delays', service._path, 'python-service')
+        time.sleep(service.delay/2000)
+        th.report_service_progress(_ncs.VERBOSITY_DEBUG, 'Between delays',
+                                   service._path, 'python-service')
+        time.sleep(service.delay/2000)
         vars = ncs.template.Variables()
         for t in service.template:
             #vars.add('DUMMY', '127.0.0.1')
             template = ncs.template.Template(service)
             template.apply(t, vars)
+        th.report_service_progress_stop(prg, 'done')
 
 
 
