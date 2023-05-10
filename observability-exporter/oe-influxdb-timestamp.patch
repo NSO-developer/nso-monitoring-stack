@@ -1,0 +1,104 @@
+--- packages/observability-exporter/python/observability_exporterptrace.py	2023-05-10 09:35:28
++++ packages/observability-exporter/python/observability_exporter/ptrace.py.1	2023-05-09 23:09:16
+@@ -1706,6 +1706,7 @@
+         kvs.update(attrs)
+         kvs.update(event.get("extra_tags", {}))
+ 
++        ts = event['timestamp']*1000
+         if event["type"] == "start":
+             if event["parent_span_id"] is None:
+                 parent_span_context = None
+@@ -1749,7 +1750,7 @@
+                 instrumentation_info=tracer.instrumentation_info,
+                 set_status_on_exception=True,
+             )
+-            span.start(start_time=event["timestamp"] * 1000, parent_context=None)
++            span.start(start_time=ts, parent_context=None)
+             trace["spans"][event["span_id"]] = span
+ 
+         elif event["type"] == "stop":
+@@ -1773,7 +1774,7 @@
+                         f"Got stop event for an already ended span. \nEvent: {prettify(event)} \nSpan: {span}"
+                     )
+                 else:
+-                    span.end(event["timestamp"] * 1000)
++                    span.end(ts)
+ 
+                 # This is top span for this trace, since we are seeing its stop
+                 # event the trace is done and we clean up our state...
+@@ -1790,7 +1791,7 @@
+                         f"Got event for an ended span. \nEvent: {prettify(event)} \nSpan: {span}"
+                     )
+                 else:
+-                    span.add_event(event["msg"], kvs, event["timestamp"] * 1000)
++                    span.add_event(event["msg"], kvs, ts)
+             except KeyError:
+                 log.error(
+                     "Unable to associate info event with an existing span - "
+@@ -1836,11 +1837,11 @@
+                 "device": event["device"] or "",
+                 "datastore": event["datastore"] or "",
+             }
++            ts = event["timestamp"]/1000000-7200
++            log.info(f"ts={ts}")
+             metrics_q.append(
+                 {
+-                    "time": datetime.datetime.fromtimestamp(
+-                        event["timestamp"] / 1000000
+-                    ),
++                    "time": datetime.datetime.fromtimestamp(ts),
+                     "measurement": "span",
+                     "tags": tags,
+                     "fields": fields,
+@@ -1886,9 +1887,11 @@
+                 open_spans[event["msg"]] -= 1
+ 
+         fields = {"count": open_spans[event["msg"]]}
++        ts = event["timestamp"]/1000000-7200
++        log.info(f"ts={ts}")
+         metrics_q.append(
+             {
+-                "time": datetime.datetime.fromtimestamp(event["timestamp"] / 1000000),
++                "time": datetime.datetime.fromtimestamp(ts),
+                 "measurement": "span-count",
+                 "tags": tags,
+                 "fields": fields,
+@@ -1937,6 +1940,8 @@
+                 fields.update(
+                     {"tid": int(event["tid"]), "datastore": event["datastore"]}
+                 )
++                ts = event["timestamp"]/1000000-7200
++                log.info(f"ts={ts}")
+                 metrics_q.append(
+                     {
+                         "time": datetime.datetime.fromtimestamp(
+@@ -2003,11 +2008,11 @@
+                     waiting.pop(tkey, None)
+                     tlock_qlen -= 1
+ 
++                ts = event["timestamp"]/1000000-7200
++                log.info(f"ts={ts}")
+                 metrics_q.append(
+                     {
+-                        "time": datetime.datetime.fromtimestamp(
+-                            event["timestamp"] / 1000000.0
+-                        ),
++                        "time": datetime.datetime.fromtimestamp(ts),
+                         "measurement": "transaction-lock",
+                         "tags": tags,
+                         "fields": {
+@@ -2022,11 +2027,11 @@
+                 type_map = {"start": 1, "stop": 0}
+                 held = type_map[event["type"]]
+ 
++                ts = event["timestamp"]/1000000-7200
++                log.info(f"ts={ts}")
+                 metrics_q.append(
+                     {
+-                        "time": datetime.datetime.fromtimestamp(
+-                            event["timestamp"] / 1000000.0
+-                        ),
++                        "time": datetime.datetime.fromtimestamp(ts),
+                         "measurement": "transaction-lock",
+                         "tags": tags,
+                         "fields": {
