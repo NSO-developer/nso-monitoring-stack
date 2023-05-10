@@ -13,11 +13,12 @@ help:
 	@echo "NSO major version: $(NSO_MAJOR_VERSION) ($(NSO_VERSION))"
 	@echo
 	@echo "Makefile rules:"
-	@echo " * all           Setup a single node NSO system."
-	@echo " * build-pkgs    Build packages."
-	@echo " * start         Start environment"
-	@echo " * stop          Stop environment"
-	@echo " * cli           Start an NSO CLI session"
+	@echo " * all              Setup a single node NSO system."
+	@echo " * build-pkgs       Build packages."
+	@echo " * start            Start environment"
+	@echo " * stop             Stop environment"
+	@echo " * cli              Start an NSO CLI session"
+	@echo " * load-dashboards  Start an NSO CLI session"
 
 
 .PHONY: all
