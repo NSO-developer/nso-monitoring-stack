@@ -18,7 +18,7 @@ help:
 	@echo " * start            Start environment"
 	@echo " * stop             Stop environment"
 	@echo " * cli              Start an NSO CLI session"
-	@echo " * load-dashboards  Start an NSO CLI session"
+	@echo " * load-dashboards  Load dashboards into Grafana."
 
 
 .PHONY: all
