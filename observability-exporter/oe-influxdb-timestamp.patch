@@ -1,4 +1,4 @@
---- packages/observability-exporter/python/observability_exporterptrace.py	2023-05-10 09:35:28
+--- packages/observability-exporter/python/observability_exporter/ptrace.py	2023-05-10 09:35:28
 +++ packages/observability-exporter/python/observability_exporter/ptrace.py.1	2023-05-09 23:09:16
 @@ -1706,6 +1706,7 @@
          kvs.update(attrs)
