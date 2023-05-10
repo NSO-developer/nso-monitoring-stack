@@ -149,7 +149,7 @@ starts/stops of NSO when the NSO Process Exporter is not running and for other
 processes outside NSO.
 
 ```
-sudo prometheus-process-exporter -config.path process-exporter/config.yaml 
+sudo prometheus-process-exporter -config.path process-exporter/process-exporter/config.yaml 
 ```
 
 ### Google mtail
